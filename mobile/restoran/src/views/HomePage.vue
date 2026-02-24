@@ -107,21 +107,17 @@ import {
   modalController, toastController,
   IonSegment, IonSegmentButton, IonLabel
 } from '@ionic/vue';
-// Tambahkan chevronForwardOutline
 import { cartOutline, addOutline, chevronForwardOutline } from 'ionicons/icons';
 import MenuDetailModal from '../components/MenuDetailModal.vue';
 
-// --- KONFIGURASI ---
 const router = useRouter();
 const API_URL = 'http://127.0.0.1:8000/api/menus'; 
 
-// --- STATE ---
 const menus = ref<any[]>([]);
 const cart = ref<any[]>([]);
 const loading = ref(true);
 const activeCategory = ref('Semua');
 
-// --- COMPUTED PROPERTIES ---
 const uniqueCategories = computed(() => {
   const allCategories = menus.value.map(item => item.kategori);
   return ['Semua', ...new Set(allCategories.filter(Boolean))];
@@ -135,7 +131,7 @@ const filteredMenus = computed(() => {
 // Hitung Total Item
 const cartTotal = computed(() => cart.value.length);
 
-// Hitung Total Harga (BARU)
+// Hitung Total Harga
 const cartTotalPrice = computed(() => {
   return cart.value.reduce((sum, item) => sum + (item.subtotal || item.harga), 0);
 });
@@ -176,7 +172,6 @@ const addToCart = async (itemWithData: any) => {
   cart.value.push(itemWithData);
   localStorage.setItem('myCart', JSON.stringify(cart.value));
   
-  // Toast tetap kita nyalakan sebentar sebagai respon cepat
   const toast = await toastController.create({
     message: `${itemWithData.nama_menu} masuk keranjang!`,
     duration: 1500,
@@ -210,7 +205,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* GENERAL */
 ion-content { --background: #f8f9fa; }
 .bg-light { --background: #f8f9fa; }
 .text-muted { color: #888; font-size: 14px; }
@@ -243,10 +237,9 @@ ion-toolbar { --background: #ffffff; padding-top: 10px; }
   font-weight: 600; border: 1px solid #eee;
 }
 
-/* GRID LAYOUT */
 .menu-grid {
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;
-  padding-bottom: 100px; /* Tambah jarak biar tidak tertutup tombol floating */
+  padding-bottom: 100px;
 }
 
 /* CARD STYLING */

@@ -53,7 +53,6 @@ class KasirController extends Controller
         return view('kasir.struk', compact('transaksi'));
     }
 
-    // --- FITUR BARU: MANAJEMEN MEJA MANUAL ---
     public function updateMeja(Request $request, $id)
     {
         $meja = Meja::findOrFail($id);

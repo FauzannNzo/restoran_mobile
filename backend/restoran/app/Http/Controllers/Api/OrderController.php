@@ -39,7 +39,7 @@ class OrderController extends Controller
             // Simpan Transaksi
             $transaksi = Transaksi::create([
                 'nama_konsumen'     => $request->nama_konsumen,
-                'meja_id'           => $meja_id, // Akan berisi Angka (Dine-in) atau Null (Take Away)
+                'meja_id'           => $meja_id,
                 'total_bayar'       => $request->total_bayar,
                 'status'            => 'pending',
                 'metode_pembayaran' => $request->metode_pembayaran,

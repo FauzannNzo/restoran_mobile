@@ -14,15 +14,12 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        // Ambil nomor meja dari URL
-        // Kalau tidak ada, default null
         $noMeja = $request->query('meja');
 
-        // Ambil semua kategori beserta menunya
-        // Kita eager load 'menus' biar query database ringan
+        // Ambil semua kategori beserta menunya yang ready (status 'tersedia' dan stok > 0)
         $kategoris = Kategori::with(['menu' => function ($query) {
             $query->where('status', 'tersedia')
-                ->where('stok_porsi', '>', 0); // Hanya menu yang ready
+                ->where('stok_porsi', '>', 0); 
         }])->get();
 
         $mejas = Meja::orderBy('no_meja', 'asc')->get();
@@ -33,7 +30,7 @@ class OrderController extends Controller
     // Proses Simpan Pesanan
     public function store(Request $request)
     {
-        // 1. Validasi (Samakan kata 'tunai' atau 'cash' sesuai database)
+        // Validasi (Samakan kata 'tunai' atau 'cash' sesuai database)
         $request->validate([
             'nama_konsumen'     => 'required|string|max:255',
             'meja_id'           => 'nullable',
@@ -44,14 +41,14 @@ class OrderController extends Controller
         try {
             DB::beginTransaction();
 
-            // 2. Buat Transaksi
+            // Buat Transaksi
             $transaksi = Transaksi::create([
                 'nama_konsumen'     => $request->nama_konsumen,
                 'meja_id'           => $request->meja_id,
                 'user_id'           => null,
                 'status'            => 'pending',
                 'total_bayar'       => 0,
-                'metode_pembayaran' => $request->metode_pembayaran ?? 'cash', // Default tunai
+                'metode_pembayaran' => $request->metode_pembayaran ?? 'cash', 
                 'tgl_transaksi'     => now(),
             ]);
 
@@ -91,7 +88,6 @@ class OrderController extends Controller
 
             DB::commit();
 
-            // 3. Respon Pintar: Jika AJAX kirim JSON, jika Form biasa kirim Redirect
             if ($request->expectsJson()) {
                 return response()->json([
                     'success' => true,
@@ -110,7 +106,7 @@ class OrderController extends Controller
         }
     }
 
-    // Halaman Sukses (Struk Sementara)
+    // Halaman Sukses
     public function success($id)
     {
         $transaksi = Transaksi::with('detail.menu')->findOrFail($id);

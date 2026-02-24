@@ -32,7 +32,7 @@ class UserController extends Controller
         User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password), // Enkripsi
+            'password' => Hash::make($request->password), 
             'role' => $request->role,
             'status' => 'aktif' 
         ]);
@@ -60,7 +60,7 @@ class UserController extends Controller
             'role' => $request->role,
         ];
 
-        // Logika PENTING: Cek apakah input password diisi?
+        // Cek apakah input password diisi
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
@@ -73,7 +73,6 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        // Proteksi: Jangan hapus diri sendiri
         if ($user->id == auth()->id()) {
             return back()->with('error', 'Anda tidak bisa menghapus akun sendiri yang sedang login!');
         }

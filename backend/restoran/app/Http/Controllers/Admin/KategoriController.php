@@ -42,7 +42,7 @@ class KategoriController extends Controller
     public function update(Request $request, Kategori $kategori)
     {
         $request->validate([
-            // Validasi unik kecuali untuk dirinya sendiri
+            // Validasi unik
             'nama_kategori' => 'required|string|max:255|unique:kategoris,nama_kategori,' . $kategori->id,
         ]);
 
@@ -59,7 +59,6 @@ class KategoriController extends Controller
             $kategori->delete();
             return redirect()->route('admin.kategoris.index')->with('success', 'Kategori berhasil dihapus');
         } catch (QueryException $e) {
-            // Error code 23000 biasanya Integrity Constraint Violation (Masih ada anak data)
             if ($e->getCode() == "23000") {
                 return back()->with('error', 'Gagal menghapus! Kategori ini masih memiliki Menu. Hapus menu terkait terlebih dahulu.');
             }

@@ -40,7 +40,6 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const backToHome = () => {
-  // Kembali ke home dan bersihkan history supaya tidak bisa di-back ke halaman sukses
   router.replace('/home');
 };
 </script>

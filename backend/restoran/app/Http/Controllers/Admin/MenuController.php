@@ -12,7 +12,6 @@ class MenuController extends Controller
 {
     public function index()
     {
-        // Gunakan pagination biar kalau menunya ratusan tidak berat
         $menus = Menu::with('kategori')->latest()->paginate(10);
         return view('admin.menu.index', compact('menus'));
     }
@@ -67,7 +66,7 @@ class MenuController extends Controller
             'nama_menu' => 'required|string|max:255',
             'harga' => 'required|numeric',
             'kategori_id' => 'required',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120', // Max 5MB
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
         ]);
 
         try {
@@ -75,11 +74,11 @@ class MenuController extends Controller
 
             // Handle Update Foto
             if ($request->hasFile('foto')) {
-                // 1. Hapus foto lama jika ada
+                // Hapus foto lama jika ada
                 if ($menu->foto && Storage::disk('public')->exists($menu->foto)) {
                     Storage::disk('public')->delete($menu->foto);
                 }
-                // 2. Upload foto baru
+                // Upload foto baru
                 $data['foto'] = $request->file('foto')->store('menus', 'public');
             }
 
@@ -98,7 +97,7 @@ class MenuController extends Controller
 
     public function destroy(Menu $menu)
     {
-        // Hapus foto fisik di folder
+        // Hapus foto di folder
         if ($menu->foto && Storage::disk('public')->exists($menu->foto)) {
             Storage::disk('public')->delete($menu->foto);
         }

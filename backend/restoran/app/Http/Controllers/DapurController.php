@@ -24,14 +24,13 @@ class DapurController extends Controller
     {
         $detail = DetailTransaksi::findOrFail($id);
 
-        // Update status jadi 'selesai' (atau 'siap_saji' jika mau lebih detail)
+        // Update status jadi 'selesai'
         $detail->status = 'selesai';
         $detail->save();
 
         return redirect()->back()->with('success', 'Menu ditandai selesai/siap saji.');
     }
 
-    // --- FITUR STOK (Tidak Berubah Banyak, sudah oke) ---
     public function stok()
     {
         $menus = Menu::orderBy('kategori_id')->get();

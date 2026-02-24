@@ -107,7 +107,6 @@ const confirm = () => {
 </script>
 
 <style scoped>
-/* GENERAL */
 .bg-light { --background: #f8f9fa; }
 
 /* HEADER & HERO IMAGE */
@@ -154,7 +153,7 @@ const confirm = () => {
   padding: 20px;
   background: white;
   border-radius: 20px;
-  margin-top: -20px; /* Menarik konten ke atas menimpa border radius gambar */
+  margin-top: -20px;
   position: relative;
   box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
 }

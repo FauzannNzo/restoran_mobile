@@ -41,7 +41,7 @@ class MejaController extends Controller
     public function update(Request $request, Meja $meja)
     {
         $request->validate([
-            // Validasi unik, abaikan ID meja yang sedang diedit
+            // Validasi unik
             'no_meja' => 'required|string|unique:mejas,no_meja,' . $meja->id,
             'kapasitas' => 'required|integer|min:1',
             'status' => 'required|in:tersedia,booking',
@@ -54,8 +54,6 @@ class MejaController extends Controller
 
     public function destroy(Meja $meja)
     {
-        // Cek apakah meja sedang dipakai transaksi aktif? (Opsional, logika tambahan)
-        // Sementara kita hapus langsung saja
         $meja->delete();
         return redirect()->route('admin.mejas.index')->with('success', 'Meja berhasil dihapus');
     }

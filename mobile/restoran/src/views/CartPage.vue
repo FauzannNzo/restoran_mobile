@@ -137,15 +137,12 @@ import {
   alertController, IonSelect, IonSelectOption,
   IonSegment, IonSegmentButton
 } from '@ionic/vue';
-// Tambahkan addOutline dan removeOutline di sini
 import { trashOutline, personOutline, restaurantOutline, cartOutline, walletOutline, addOutline, removeOutline } from 'ionicons/icons';
 
-// --- KONFIGURASI ---
 const router = useRouter();
 const API_URL_CHECKOUT = 'http://127.0.0.1:8000/api/checkout';
 const API_URL_MEJA = 'http://127.0.0.1:8000/api/mejas';
 
-// --- STATE VARIABLES ---
 const cartItems = ref<any[]>([]);
 const tables = ref<any[]>([]);
 const customerName = ref('');
@@ -154,7 +151,6 @@ const orderType = ref('dine in');
 const paymentMethod = ref('cash');
 const isProcessing = ref(false);
 
-// --- LOAD DATA ---
 onMounted(() => {
   loadCart();
   fetchTables();
@@ -178,7 +174,6 @@ const fetchTables = async () => {
   }
 };
 
-// --- LOGIKA TOMBOL + DAN - (BARU) ---
 const incrementQty = (index: number) => {
   // Tambah jumlah
   cartItems.value[index].jumlah++;
@@ -239,7 +234,7 @@ const processCheckout = async () => {
     if (response.data.success) {
       localStorage.removeItem('myCart');
       cartItems.value = [];
-      router.push('/success'); // Nanti ini diganti ke /success
+      router.push('/success');
     }
 
   } catch (error: any) {
@@ -315,7 +310,6 @@ const showAlert = async (header: string, message: string) => {
   box-shadow: 0 1px 4px rgba(0,0,0,0.05);
 }
 
-/* CSS UNTUK TOMBOL + DAN - */
 .qty-control {
   display: flex;
   align-items: center;

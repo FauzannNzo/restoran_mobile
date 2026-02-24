@@ -233,12 +233,12 @@
             // Sembunyikan Kalkulator
             calc.classList.add('hidden');
             qrisInfo.classList.remove('hidden');
-            inputBayar.removeAttribute('required'); // Tidak wajib isi uang
+            inputBayar.removeAttribute('required');
         } else {
             // Tampilkan Kalkulator
             calc.classList.remove('hidden');
             qrisInfo.classList.add('hidden');
-            inputBayar.setAttribute('required', 'required'); // Wajib isi uang
+            inputBayar.setAttribute('required', 'required');
             inputBayar.focus();
         }
     }

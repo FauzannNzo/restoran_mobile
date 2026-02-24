@@ -261,7 +261,6 @@
     </div>
 
     <script>
-        // --- GLOBAL STATE ---
         let cart = [];
         let currentMenu = {};
         let currentQty = 1;
@@ -422,7 +421,7 @@
             }
         }
 
-        // --- FUNGSI KIRIM PESANAN (VERSI AJAX) ---
+        // --- FUNGSI KIRIM PESANAN  ---
         async function submitOrder() {
             const nama = document.getElementById('customerName').value;
             const mejaId = document.getElementById('selectedTableId').value;
@@ -448,14 +447,14 @@
             // Hitung Total
             const grandTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
-            // Susun Payload JSON (Sesuai Controller)
+            // Susun Payload JSON 
             const payload = {
                 nama_konsumen: nama,
                 meja_id: metodeOrder === 'dine in' ? mejaId : null,
                 metode_pembayaran: paymentMethod,
                 items: cart.map(item => ({
                     id: item.id,
-                    jumlah: item.qty, // Controller pakai $item['jumlah'] atau $item['qty']
+                    jumlah: item.qty,
                     catatan: item.catatan || '-',
                     subtotal: item.price * item.qty
                 }))
@@ -485,7 +484,7 @@
                 if (response.ok && result.success) {
                     cart = [];
                     localStorage.removeItem('myCart');
-                    // Redirect ke halaman sukses bawaan Controller
+                    // Redirect ke halaman sukses
                     window.location.href = result.redirect;
                 } else {
                     alert('Gagal: ' + (result.message || 'Terjadi kesalahan sistem'));
@@ -501,7 +500,7 @@
         }
 
         function filterCategory(categoryClass, btnElement) {
-            // 1. Ubah styling tombol yang aktif
+            // Ubah styling tombol yang aktif
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('text-blue-600', 'border-blue-600', 'font-bold');
                 btn.classList.add('text-gray-500', 'border-transparent', 'font-medium');
@@ -509,20 +508,20 @@
             btnElement.classList.remove('text-gray-500', 'border-transparent', 'font-medium');
             btnElement.classList.add('text-blue-600', 'border-blue-600', 'font-bold');
 
-            // 2. Filter Menu
+            // Filter Menu
             const items = document.querySelectorAll('.menu-item');
             let visibleCount = 0;
 
             items.forEach(item => {
                 if (categoryClass === 'all' || item.classList.contains(categoryClass)) {
-                    item.style.display = 'flex'; // Tampilkan
+                    item.style.display = 'flex';
                     visibleCount++;
                 } else {
-                    item.style.display = 'none'; // Sembunyikan
+                    item.style.display = 'none';
                 }
             });
 
-            // 3. Tampilkan pesan jika kosong
+            // Tampilkan pesan jika kosong
             const emptyMsg = document.getElementById('emptyMessage');
             if (visibleCount === 0) {
                 emptyMsg.classList.remove('hidden');
